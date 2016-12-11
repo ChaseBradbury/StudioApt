@@ -56,7 +56,6 @@ function mouseUp(event) {
 		movingObject.y = grid[x][y].y;
 		if (movingObject.isSafe()) {
 			movingObject.place(x, y);
-			movingObject.checkNeighbors(x, y);
 			movingObject.clicked = false;
 			movingObject = null;
 		} else {

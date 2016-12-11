@@ -68,6 +68,7 @@ function furniture(name, x, y, length, height, color, highlightColor) {
 			for (var j = gy; j < this.height + gy; ++j) {
 				if (grid[i] != null && grid[i][j] != null){
 					grid[i][j].putFurnitureOnCell(true, movingObject);
+					this.checkNeighbors(i,j);
 				}
 			}
 		}
