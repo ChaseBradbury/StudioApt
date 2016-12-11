@@ -122,21 +122,15 @@ function keyPress(event) {
 	}
 }
 
-<<<<<<< HEAD
-var couch = new furniture("couch", grid.length * cellSize + 10, 10, 2, 1, "#0000ff", "#ccccff", couchImage, 
+var couch = new furniture("couch", grid.length * cellSize + 10, 10, 1, 2, "#0000ff", "#ccccff", couchImage,
 	[new bonusListItem("dinner table", -2), new bonusListItem("coffee table", 1)]
 	);
-var table = new furniture("dinner table", grid.length * cellSize + 10, 10 * 2 + cellSize, 3, 1, "#007728", "#ccccff", chairImage,
+var table = new furniture("table", grid.length * cellSize + 10 * 2 + cellSize, 10, 1, 3, "#0000ff", "#ccccff", tableImage,
 	[]
 	);
-var coffeeTable = new furniture("coffee table", grid.length * cellSize + 10, 10, 1, 1, "#800000", "#ccccff",chairImage,
+var chair = new furniture("chair", grid.length * cellSize + 10, 10 * 2 + cellSize * 2, 1, 1, "#0000ff", "#ccccff", chairImage,
 	[]
 	);
-=======
-var couch = new furniture("couch", grid.length * cellSize + 10, 10, 1, 2, "#0000ff", "#ccccff", couchImage);
-var table = new furniture("table", grid.length * cellSize + 10 * 2 + cellSize, 10, 1, 3, "#0000ff", "#ccccff", tableImage);
-var chair = new furniture("table", grid.length * cellSize + 10, 10 * 2 + cellSize * 2, 1, 1, "#0000ff", "#ccccff", chairImage);
->>>>>>> e4d267e1d7f2870e9461e37584e3c5a55da89298
 
 setInterval(draw, 30);
 
