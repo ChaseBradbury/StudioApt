@@ -20,8 +20,8 @@ function mouseDown(event) {
 		return;
 	}
 
-	if (chair.isClicked(x, y)) {
-		movingObject = chair;
+	if (table.isClicked(x, y)) {
+		movingObject = table;
 		return;
 	}
 
@@ -55,11 +55,12 @@ function mouseUp(event) {
 		movingObject.x = grid[x][y].x;
 		movingObject.y = grid[x][y].y;
 		if (movingObject.isSafe()) {
-			grid[x][y].isFurnitureOnCell(true);
-			movingObject.currentGridSpace = grid[x][y];
+			grid[x][y].putFurnitureOnCell(true, movingObject);
+			movingObject.checkNeighbors(x, y);
 			movingObject.clicked = false;
 			movingObject = null;
 		} else {
+			grid[x][y].putFurnitureOnCell(false, null);
 			movingObject.reset();
 			movingObject.clicked = false;
 			movingObject = null;
@@ -104,8 +105,8 @@ function keyPress(event) {
 	}
 }
 
-var couch = new furniture(grid.length * cellSize + 10, 10, 2, 1, "#0000ff", "#ccccff");
-var chair = new furniture(grid.length * cellSize + 10, 10, 3, 1, "#0000ff", "#ccccff");
+var couch = new furniture("couch", grid.length * cellSize + 10, 10, 2, 1, "#0000ff", "#ccccff");
+var table = new furniture("table", grid.length * cellSize + 10, 10, 3, 1, "#0000ff", "#ccccff");
 
 setInterval(draw, 30);
 
@@ -117,5 +118,5 @@ function draw() {
 		}
 	}
 	couch.draw();
-	chair.draw();
+	table.draw();
 }
