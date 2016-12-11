@@ -1,3 +1,5 @@
+var dangerColor = "#ff0000";
+
 function furniture(x, y, length, height, color, highlightColor) {
 	this.x = x;
 	this.y = y;
