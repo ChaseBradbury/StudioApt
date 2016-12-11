@@ -33,3 +33,25 @@ function cell(x, y, usable) {
 		this.currFurniture = furniture;
 	}
 }
+
+function printGrid() {
+	var gridSerialize = "[";
+	for (var i = 0; i < gridLength; ++i) {
+		gridSerialize += gridSerialize = "[";
+		for (var j = 0; j < gridHeight; ++j) {
+			gridSerialize += grid[i][j].usable;
+			if(j < gridHeight-1) {
+				gridSerialize += ",";
+			} else {
+				gridSerialize += "]";
+			}
+		}
+		if(i < gridLength -1){
+			gridSerialize += ",\n";
+		}
+	}
+	gridSerialize += "];";
+
+	console.log("serialized: " + gridSerialize);
+	gridSerialize = "";
+}
