@@ -24,6 +24,7 @@ function furniture(name, x, y, length, height, color, highlightColor, image, bon
 	this.toxicList; // a list of items, each of which says what side it can be on
 	this.image = image;
 	this.rotation = 0;
+	this.pointsEarning = 0;
 
 	this.isClicked = function(x, y) {
 		if (x > this.x && x < this.x + this.sizeX && y > this.y && y < this.y + this.sizeY) {
@@ -34,6 +35,7 @@ function furniture(name, x, y, length, height, color, highlightColor, image, bon
 				for (var j = gy; j < this.height + gy; ++j) {
 					if (grid[i] != null && grid[i][j] != null){
 						grid[i][j].putFurnitureOnCell(false,null);
+						this.pointsEarning = 0;
 					}
 				}
 			}
@@ -80,6 +82,7 @@ function furniture(name, x, y, length, height, color, highlightColor, image, bon
 	this.reset = function() {
 		this.x = this.initX;
 		this.y = this.initY;
+		this.pointsEarning = 0;
 	}
 
 	this.draw = function() {
@@ -137,10 +140,10 @@ function furniture(name, x, y, length, height, color, highlightColor, image, bon
 	this.checkBonusList = function(furniture) {
 		for (var i = 0; i < this.bonusList.length; i++){
 			if (furniture.name == this.bonusList[i].name){
-				playerPoints += this.bonusList[i].points;
+				this.pointsEarning += this.bonusList[i].points;
 			}
 		}
-		console.log("playerPoints after: " + playerPoints);
+		console.log("pointsEarning after: " + this.pointsEarning);
 	}
 
 	this.getFrontNeighbor = function () {
