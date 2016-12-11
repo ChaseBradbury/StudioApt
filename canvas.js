@@ -20,6 +20,11 @@ function mouseDown(event) {
 		return;
 	}
 
+	if (chair.isClicked(x, y)) {
+		movingObject = chair;
+		return;
+	}
+
 	x = Math.floor(x/cellSize);
 	y = Math.floor(y/cellSize);
 
@@ -49,6 +54,8 @@ function mouseUp(event) {
 		movingObject.x = grid[x][y].x;
 		movingObject.y = grid[x][y].y;
 		if (movingObject.isSafe()) {
+			grid[x][y].isFurnitureOnCell(true);
+			grid[x][y].currentGridSpace = grid[x][y];
 			movingObject.clicked = false;
 			movingObject = null;
 		}
@@ -93,6 +100,7 @@ function keyPress(event) {
 }
 
 var couch = new furniture(grid.length * cellSize + 10, 10, 2, 1, "#0000ff", "#ccccff");
+var chair = new furniture(grid.length * cellSize + 10, 10, 3, 1, "#0000ff", "#ccccff");
 
 setInterval(draw, 30);
 
@@ -104,4 +112,5 @@ function draw() {
 		}
 	}
 	couch.draw();
+	chair.draw();
 }
