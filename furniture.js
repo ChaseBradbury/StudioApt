@@ -16,12 +16,11 @@ function furniture(name, x, y, length, height, color, highlightColor, image, bon
 	//adding stuff here
 	this.currentGridSpace = null;
 	this.name;
+	//Sides of furniture for bonus
 	this.front;
 	this.back;
-	this.left;
-	this.right;
+	this.side; 
 	this.bonusList = bonusList; // a list of bonusListItems, each of which says what side it can be on
-	this.toxicList; // a list of items, each of which says what side it can be on
 	this.image = image;
 	this.rotation = 0;
 	this.pointsEarning = 0;
@@ -51,6 +50,7 @@ function furniture(name, x, y, length, height, color, highlightColor, image, bon
 		this.height = tmpl;
 		this.sizeY = tmpx;
 		this.rotation = (this.rotation + 1)%4;
+		console.log(this.rotation);
 	}
 
 	this.isSafe = function() {
@@ -119,27 +119,92 @@ function furniture(name, x, y, length, height, color, highlightColor, image, bon
 	}
 
 	this.checkNeighbors = function(x, y) {
+		//check left
 		if (grid[x-1][y].hasFurniture && grid[x-1][y].currFurniture.name != this.name){
 			console.log("LEFT is " + grid[x-1][y].currFurniture.name);
-			this.checkBonusList(grid[x-1][y].currFurniture);
+			if (this.rotation == 0){
+				this.checkBonusList(grid[x-1][y].currFurniture, back);
+			}
+			else if (this.rotation == 1){
+				this.checkBonusList(grid[x-1][y].currFurniture, side);
+			}
+			else if (this.rotation == 2){
+				this.checkBonusList(grid[x-1][y].currFurniture, front);
+			}
+			else if (this.rotation == 3){
+				this.checkBonusList(grid[x-1][y].currFurniture, side);
+			}
+			else {
+				console.log("BIG ROTATION ERROR");
+			}
 		}
+		//check right
 		if (grid[x+1][y].hasFurniture && grid[x+1][y].currFurniture.name != this.name){
 			console.log("RIGHT is " + grid[x+1][y].currFurniture.name);
-			this.checkBonusList(grid[x+1][y].currFurniture);
+			if (this.rotation == 0){
+				this.checkBonusList(grid[x+1][y].currFurniture, front);
+			}
+			else if (this.rotation == 1){
+				this.checkBonusList(grid[x+1][y].currFurniture, side);
+			}
+			else if (this.rotation == 2){
+				this.checkBonusList(grid[x+1][y].currFurniture, back);
+			}
+			else if (this.rotation == 3){
+				this.checkBonusList(grid[x+1][y].currFurniture, side);
+			}
+			else {
+				console.log("BIG ROTATION ERROR");
+			}
 		}
+		//check bottom
 		if (grid[x][y+1].hasFurniture && grid[x][y+1].currFurniture.name != this.name){
 			console.log("BOTTOM is " + grid[x][y+1].currFurniture.name);
-			this.checkBonusList(grid[x][y+1].currFurniture);
+			if (this.rotation == 0){
+				this.checkBonusList(grid[x][y+1].currFurniture, side);
+			}
+			else if (this.rotation == 1){
+				this.checkBonusList(grid[x][y+1].currFurniture, front);
+			}
+			else if (this.rotation == 2){
+				this.checkBonusList(grid[x][y+1].currFurniture, side);
+			}
+			else if (this.rotation == 3){
+				this.checkBonusList(grid[x][y+1].currFurniture, back);
+			}
+			else {
+				console.log("BIG ROTATION ERROR");
+			}
 		}
+		//check top
 		if (grid[x][y-1].hasFurniture && grid[x][y-1].currFurniture.name != this.name){
 			console.log("TOP is " + grid[x][y-1].currFurniture.name);
-			this.checkBonusList(grid[x][y-1].currFurniture);
+			if (this.rotation == 0){
+				this.checkBonusList(grid[x][y-1].currFurniture, side);
+			}
+			else if (this.rotation == 1){
+				this.checkBonusList(grid[x][y-1].currFurniture, back);
+			}
+			else if (this.rotation == 2){
+				this.checkBonusList(grid[x][y-1].currFurniture, side);
+			}
+			else if (this.rotation == 3){
+				this.checkBonusList(grid[x][y-1].currFurniture, front);
+			}
+			else {
+				console.log("BIG ROTATION ERROR");
+			}
 		}
 	}
 
-	this.checkBonusList = function(furniture) {
+	this.checkBonusList = function(furniture, bonusSide) {
 		for (var i = 0; i < this.bonusList.length; i++){
-			if (furniture.name == this.bonusList[i].name){
+			// if bonusSide is "all", applying bonusPoints no matter what
+			if (furniture.name == this.bonusList[i].name && this.bonusList[i].bonusSide == all){
+				console.log(this.bonusList[i]);
+				this.pointsEarning += this.bonusList[i].points;
+			} 
+			else if (furniture.name == this.bonusList[i].name && bonusSide == this.bonusList[i].bonusSide){
 				this.pointsEarning += this.bonusList[i].points;
 			}
 		}

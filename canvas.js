@@ -13,8 +13,15 @@ tableImage.src = "TableBad.png";
 var chairImage = new Image();
 chairImage.src = "ChairBad.png";
 
+// furniture globals
 var allFurniture = [];
+//possible bonus sides
+var all = "all";
+var front = "front";
+var back = "back";
+var side = "side";
 furnitureList();
+
 for (var i = 0; i < allFurniture.length; i++){
 		console.log(allFurniture[i].name);
 }
