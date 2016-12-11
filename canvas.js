@@ -123,7 +123,7 @@ function keyPress(event) {
 }
 
 var couch = new furniture("couch", grid.length * cellSize + 10, 10, 1, 2, "#0000ff", "#ccccff", couchImage,
-	[new bonusListItem("dinner table", -2), new bonusListItem("coffee table", 1)]
+	[new bonusListItem("table", -2), new bonusListItem("coffee table", 1)]
 	);
 var table = new furniture("table", grid.length * cellSize + 10 * 2 + cellSize, 10, 1, 3, "#0000ff", "#ccccff", tableImage,
 	[]
