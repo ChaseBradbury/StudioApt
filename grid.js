@@ -1,7 +1,7 @@
 var grid = [];
-var gridLength = 12;
-var gridHeight = 8;
-var cellSize = 64;
+var gridLength = 24;
+var gridHeight = 20;
+var cellSize = 32;
 
 for (var i = 0; i < gridLength; ++i) {
 	grid[i] = [];
@@ -32,4 +32,26 @@ function cell(x, y, usable) {
 		this.hasFurniture = hasFurniture;
 		this.currFurniture = furniture;
 	}
+}
+
+function printGrid() {
+	var gridSerialize = "[";
+	for (var i = 0; i < gridLength; ++i) {
+		gridSerialize += gridSerialize = "[";
+		for (var j = 0; j < gridHeight; ++j) {
+			gridSerialize += grid[i][j].usable;
+			if(j < gridHeight-1) {
+				gridSerialize += ",";
+			} else {
+				gridSerialize += "]";
+			}
+		}
+		if(i < gridLength -1){
+			gridSerialize += ",\n";
+		}
+	}
+	gridSerialize += "];";
+
+	console.log("serialized: " + gridSerialize);
+	gridSerialize = "";
 }
