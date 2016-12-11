@@ -81,7 +81,6 @@ function furniture(name, x, y, length, height, color, highlightColor) {
 	this.draw = function() {
 		ctx.strokeStyle="#000000";
 		ctx.strokeRect(this.x, this.y, this.sizeX, this.sizeY);
-		
 		if(!this.isSafe()) ctx.fillStyle=dangerColor;
 		else if(this.clicked) ctx.fillStyle=this.highlightColor;
 		else ctx.fillStyle=this.color;
