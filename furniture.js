@@ -88,16 +88,16 @@ function furniture(name, x, y, length, height, color, highlightColor) {
 	}
 
 	this.checkNeighbors = function(x, y) {
-		if (grid[x-1][y].hasFurniture){
+		if (grid[x-1][y].hasFurniture && grid[x-1][y].currFurniture.name != this.name){
 			console.log("LEFT is " + grid[x-1][y].currFurniture.name);
 		}
-		if (grid[x+1][y].hasFurniture){
+		if (grid[x+1][y].hasFurniture && grid[x+1][y].currFurniture.name != this.name){
 			console.log("RIGHT is " + grid[x+1][y].currFurniture.name);
 		}
-		if (grid[x][y+1].hasFurniture){
+		if (grid[x][y+1].hasFurniture && grid[x][y+1].currFurniture.name != this.name){
 			console.log("BOTTOM is " + grid[x][y+1].currFurniture.name);
 		}
-		if (grid[x][y-1].hasFurniture){
+		if (grid[x][y-1].hasFurniture && grid[x][y-1].currFurniture.name != this.name){
 			console.log("TOP is " + grid[x][y-1].currFurniture.name);
 		}
 	}
