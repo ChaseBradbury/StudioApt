@@ -1,5 +1,4 @@
-function bonusListItem (furniture, sideOne, sideTwo){
-	this.furniture = furniture;
-	this.sideOne = sideOne;
-	this.sideTwo = sideTwo;
+function bonusListItem (name, points){
+	this.name = name;
+	this.points = points;
 }

@@ -11,6 +11,8 @@ couchImage.src = "CouchBad.png";
 var chairImage = new Image();
 chairImage.src = "ChairBad.png";
 
+var playerPoints = 0;
+
 var movingObject = null;
 
 c.addEventListener("mousedown", mouseDown, false);
@@ -113,8 +115,15 @@ function keyPress(event) {
 	}
 }
 
-var couch = new furniture("couch", grid.length * cellSize + 10, 10, 2, 1, "#0000ff", "#ccccff", couchImage);
-var table = new furniture("table", grid.length * cellSize + 10, 10 * 2 + cellSize, 3, 1, "#0000ff", "#ccccff", chairImage);
+var couch = new furniture("couch", grid.length * cellSize + 10, 10, 2, 1, "#0000ff", "#ccccff", couchImage, 
+	[new bonusListItem("dinner table", -2), new bonusListItem("coffee table", 1)]
+	);
+var table = new furniture("dinner table", grid.length * cellSize + 10, 10 * 2 + cellSize, 3, 1, "#007728", "#ccccff", chairImage,
+	[]
+	);
+var coffeeTable = new furniture("coffee table", grid.length * cellSize + 10, 10, 1, 1, "#800000", "#ccccff",chairImage,
+	[]
+	);
 
 setInterval(draw, 30);
 

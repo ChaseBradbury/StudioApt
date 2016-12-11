@@ -1,6 +1,6 @@
 var dangerColor = "#ff0000";
 
-function furniture(name, x, y, length, height, color, highlightColor, image) {
+function furniture(name, x, y, length, height, color, highlightColor, image, bonusList) {
 	this.name = name;
 	this.x = x;
 	this.y = y;
@@ -20,7 +20,7 @@ function furniture(name, x, y, length, height, color, highlightColor, image) {
 	this.back;
 	this.left;
 	this.right;
-	//this.bonusList = bonusListItems[]; // a list of bonusListItems, each of which says what side it can be on
+	this.bonusList = bonusList; // a list of bonusListItems, each of which says what side it can be on
 	this.toxicList; // a list of items, each of which says what side it can be on
 	this.image = image;
 
@@ -98,22 +98,29 @@ function furniture(name, x, y, length, height, color, highlightColor, image) {
 	this.checkNeighbors = function(x, y) {
 		if (grid[x-1][y].hasFurniture && grid[x-1][y].currFurniture.name != this.name){
 			console.log("LEFT is " + grid[x-1][y].currFurniture.name);
+			this.checkBonusList(grid[x-1][y].currFurniture);
 		}
 		if (grid[x+1][y].hasFurniture && grid[x+1][y].currFurniture.name != this.name){
 			console.log("RIGHT is " + grid[x+1][y].currFurniture.name);
+			this.checkBonusList(grid[x+1][y].currFurniture);
 		}
 		if (grid[x][y+1].hasFurniture && grid[x][y+1].currFurniture.name != this.name){
 			console.log("BOTTOM is " + grid[x][y+1].currFurniture.name);
+			this.checkBonusList(grid[x][y+1].currFurniture);
 		}
 		if (grid[x][y-1].hasFurniture && grid[x][y-1].currFurniture.name != this.name){
 			console.log("TOP is " + grid[x][y-1].currFurniture.name);
+			this.checkBonusList(grid[x][y-1].currFurniture);
 		}
 	}
 
-	this.checkBonusList = function() {
-		// for (var i = 0; i < bonusList.length; i++){
-		// 	if ()
-		// }
+	this.checkBonusList = function(furniture) {
+		for (var i = 0; i < this.bonusList.length; i++){
+			if (furniture.name == this.bonusList[i].name){
+				playerPoints += this.bonusList[i].points;
+			}
+		}
+		console.log("playerPoints after: " + playerPoints);
 	}
 
 	this.getFrontNeighbor = function () {
