@@ -66,8 +66,15 @@ function moveMouse(event) {
 	y -= c.offsetTop;
 
 	if (movingObject != null) {
-		movingObject.x = x - movingObject.sizeX/2;
-		movingObject.y = y - movingObject.sizeY/2;
+		var gx = Math.floor(x/cellSize);
+		var gy = Math.floor(y/cellSize);
+		if (grid[gx] != null && grid[gx][gy] != null) {
+			movingObject.x = grid[gx][gy].x;
+			movingObject.y = grid[gx][gy].y;
+		} else {
+			movingObject.x = x - movingObject.sizeX/2;
+			movingObject.y = y - movingObject.sizeY/2;
+		}
 	}
 }
 
