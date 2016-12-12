@@ -1,6 +1,6 @@
 var grid = [];
 var gridLength = 24;
-var gridHeight = 16;
+var gridHeight = 20;
 var cellSize = 32;
 
 for (var i = 0; i < gridLength; ++i) {
