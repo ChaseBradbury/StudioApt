@@ -9,7 +9,7 @@ window.onload = function () {
 var couchImage = new Image();
 couchImage.src = "CouchBad.png";
 var tableImage = new Image();
-tableImage.src = "TableBad.png";
+tableImage.src = "diningtable.png";
 var chairImage = new Image();
 chairImage.src = "ChairBad.png";
 
