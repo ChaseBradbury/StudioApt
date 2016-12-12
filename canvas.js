@@ -116,6 +116,9 @@ function keyPress(event) {
 				movingObject.rotate();
 			}
 			break;
+		case 103:
+			printGrid();
+			break;
 	}
 }
 

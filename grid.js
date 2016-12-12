@@ -1,7 +1,7 @@
 var grid = [];
-var gridLength = 12;
-var gridHeight = 8;
-var cellSize = 64;
+var gridLength = 24;
+var gridHeight = 16;
+var cellSize = 32;
 
 for (var i = 0; i < gridLength; ++i) {
 	grid[i] = [];
