@@ -105,7 +105,7 @@ function keyPress(event) {
 }
 
 var couch = new furniture(grid.length * cellSize + 10, 10, 2, 1, "#0000ff", "#ccccff");
-var chair = new furniture(grid.length * cellSize + 10, 10, 3, 1, "#0000ff", "#ccccff");
+var chair = new furniture(grid.length * cellSize + 10, 10 * 2 + cellSize, 3, 1, "#0000ff", "#ccccff");
 
 setInterval(draw, 30);
 
@@ -118,4 +118,7 @@ function draw() {
 	}
 	couch.draw();
 	chair.draw();
+	if (movingObject != null) {
+		movingObject.draw();
+	}
 }
