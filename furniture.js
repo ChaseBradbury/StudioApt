@@ -12,10 +12,23 @@ function furniture(x, y, length, height, color, highlightColor) {
 	this.color = color;
 	this.highlightColor = highlightColor;
 	this.clicked = false;
+	//adding stuff here
+	this.currentGridSpace = null;
+	this.name;
+	this.front;
+	this.back;
+	this.left;
+	this.right;
+	//this.bonusList = bonusListItems[]; // a list of bonusListItems, each of which says what side it can be on
+	this.toxicList; // a list of items, each of which says what side it can be on
 
 	this.isClicked = function(x, y) {
 		if (x > this.x && x < this.x + this.sizeX && y > this.y && y < this.y + this.sizeY) {
 			this.clicked = !this.clicked;
+			//when picking up a piece of furniture, immediately make hasFurn false
+			if (this.currentGridSpace != null){
+				this.currentGridSpace.isFurnitureOnCell(false);
+			}
 			return true;
 		}
 	}
@@ -34,7 +47,10 @@ function furniture(x, y, length, height, color, highlightColor) {
 		var gy = Math.floor(this.y/cellSize);
 		for (var i = gx; i < this.length + gx; ++i) {
 			for (var j = gy; j < this.height + gy; ++j) {
-				if (grid[i] == null || grid[i][j] == null || !grid[i][j].usable) return false; 
+				if (grid[i] == null || grid[i][j] == null || !grid[i][j].usable || (grid[i][j].hasFurniture && this.currentGridSpace != grid[i][j])) {
+					//if (grid[i][j].hasFurniture) 
+					return false; 
+				}
 			}
 		}
 		return true;
@@ -53,5 +69,35 @@ function furniture(x, y, length, height, color, highlightColor) {
 		else if(this.clicked) ctx.fillStyle=this.highlightColor;
 		else ctx.fillStyle=this.color;
 		ctx.fillRect(this.x, this.y, this.sizeX, this.sizeY);
+	}
+
+	// this.assignCurrentGridSpace = function(gridSpace) {
+	// 	this.currentGridSpace = gridSpace;
+	// }
+
+	this.checkAdjacency = function() {
+		
+	}
+
+	this.checkBonusList = function() {
+		// for (var i = 0; i < bonusList.length; i++){
+		// 	if ()
+		// }
+	}
+
+	this.getFrontNeighbor = function () {
+
+	}
+
+	this.getBackNeighbor = function () {
+		
+	}
+
+	this.getLeftNeighbor = function () {
+		
+	}
+
+	this.getRightNeighbor = function () {
+		
 	}
 }

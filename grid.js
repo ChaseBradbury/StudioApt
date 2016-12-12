@@ -16,6 +16,7 @@ function cell(x, y, usable) {
 	this.y = y * cellSize;
 	this.size = cellSize;
 	this.usable = usable;
+	this.hasFurniture = false;
 
 	this.draw = function() {
 		ctx.strokeStyle="#000000";
@@ -24,5 +25,9 @@ function cell(x, y, usable) {
 		if(this.usable) ctx.fillStyle="#ffffff";
 		else ctx.fillStyle="#000000";
 		ctx.fillRect(this.x, this.y, this.size, this.size);
+	}
+
+	this.isFurnitureOnCell = function (hasFurniture) {
+		this.hasFurniture = hasFurniture;
 	}
 }
