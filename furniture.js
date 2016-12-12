@@ -23,6 +23,7 @@ function furniture(name, x, y, length, height, color, highlightColor, image) {
 	//this.bonusList = bonusListItems[]; // a list of bonusListItems, each of which says what side it can be on
 	this.toxicList; // a list of items, each of which says what side it can be on
 	this.image = image;
+	this.rotation = 0;
 
 	this.isClicked = function(x, y) {
 		if (x > this.x && x < this.x + this.sizeX && y > this.y && y < this.y + this.sizeY) {
@@ -47,6 +48,7 @@ function furniture(name, x, y, length, height, color, highlightColor, image) {
 		this.sizeX = this.sizeY;
 		this.height = tmpl;
 		this.sizeY = tmpx;
+		this.rotation = (this.rotation + 1)%4;
 	}
 
 	this.isSafe = function() {
@@ -83,16 +85,34 @@ function furniture(name, x, y, length, height, color, highlightColor, image) {
 	this.draw = function() {
 		ctx.strokeStyle="#000000";
 		ctx.strokeRect(this.x, this.y, this.sizeX, this.sizeY);
+		ctx.save();
 		if(!this.isSafe()) {
 			ctx.globalAlpha = 0.5;
 			ctx.fillStyle=dangerColor;
 			ctx.fillRect(this.x, this.y, this.sizeX, this.sizeY);
 		}
+		ctx.translate(this.x, this.y);
+		ctx.rotate(this.rotation*90*Math.PI/180);
+		ctx.translate(-this.x, -this.y);
 		if (this.clicked) {
 			ctx.globalAlpha = 0.25;
 		}
-		ctx.drawImage(this.image, this.x, this.y, this.sizeX, this.sizeY);
-		ctx.globalAlpha = 1.0;
+		var xMod = 0;
+		var yMod = 0;
+		switch(this.rotation) {
+			case 1:
+				yMod = this.sizeX;
+				break;
+			case 2:
+				yMod = this.sizeY;
+				xMod = this.sizeX;
+				break;
+			case 3:
+				xMod = this.sizeY;
+				break;
+		}
+		ctx.drawImage(this.image, this.x - xMod, this.y - yMod);
+		ctx.restore();
 	}
 
 	this.checkNeighbors = function(x, y) {

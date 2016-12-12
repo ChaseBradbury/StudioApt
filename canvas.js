@@ -8,6 +8,8 @@ window.onload = function () {
 };
 var couchImage = new Image();
 couchImage.src = "CouchBad.png";
+var tableImage = new Image();
+tableImage.src = "TableBad.png";
 var chairImage = new Image();
 chairImage.src = "ChairBad.png";
 
@@ -31,6 +33,11 @@ function mouseDown(event) {
 
 	if (table.isClicked(x, y)) {
 		movingObject = table;
+		return;
+	}
+
+	if (chair.isClicked(x, y)) {
+		movingObject = chair;
 		return;
 	}
 
@@ -113,8 +120,9 @@ function keyPress(event) {
 	}
 }
 
-var couch = new furniture("couch", grid.length * cellSize + 10, 10, 2, 1, "#0000ff", "#ccccff", couchImage);
-var table = new furniture("table", grid.length * cellSize + 10, 10 * 2 + cellSize, 3, 1, "#0000ff", "#ccccff", chairImage);
+var couch = new furniture("couch", grid.length * cellSize + 10, 10, 1, 2, "#0000ff", "#ccccff", couchImage);
+var table = new furniture("table", grid.length * cellSize + 10 * 2 + cellSize, 10, 1, 3, "#0000ff", "#ccccff", tableImage);
+var chair = new furniture("table", grid.length * cellSize + 10, 10 * 2 + cellSize * 2, 1, 1, "#0000ff", "#ccccff", chairImage);
 
 setInterval(draw, 30);
 
@@ -128,6 +136,7 @@ function draw() {
 		}
 		couch.draw();
 		table.draw();
+		chair.draw();
 		if (movingObject != null) {
 			movingObject.draw();
 		}
