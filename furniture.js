@@ -1,6 +1,6 @@
 var dangerColor = "#ff0000";
 
-function furniture(name, x, y, length, height, color, highlightColor) {
+function furniture(name, x, y, length, height, color, highlightColor, image) {
 	this.name = name;
 	this.x = x;
 	this.y = y;
@@ -22,6 +22,7 @@ function furniture(name, x, y, length, height, color, highlightColor) {
 	this.right;
 	//this.bonusList = bonusListItems[]; // a list of bonusListItems, each of which says what side it can be on
 	this.toxicList; // a list of items, each of which says what side it can be on
+	this.image = image;
 
 	this.isClicked = function(x, y) {
 		if (x > this.x && x < this.x + this.sizeX && y > this.y && y < this.y + this.sizeY) {
@@ -82,10 +83,16 @@ function furniture(name, x, y, length, height, color, highlightColor) {
 	this.draw = function() {
 		ctx.strokeStyle="#000000";
 		ctx.strokeRect(this.x, this.y, this.sizeX, this.sizeY);
-		if(!this.isSafe()) ctx.fillStyle=dangerColor;
-		else if(this.clicked) ctx.fillStyle=this.highlightColor;
-		else ctx.fillStyle=this.color;
-		ctx.fillRect(this.x, this.y, this.sizeX, this.sizeY);
+		if(!this.isSafe()) {
+			ctx.globalAlpha = 0.5;
+			ctx.fillStyle=dangerColor;
+			ctx.fillRect(this.x, this.y, this.sizeX, this.sizeY);
+		}
+		if (this.clicked) {
+			ctx.globalAlpha = 0.25;
+		}
+		ctx.drawImage(this.image, this.x, this.y, this.sizeX, this.sizeY);
+		ctx.globalAlpha = 1.0;
 	}
 
 	this.checkNeighbors = function(x, y) {

@@ -2,6 +2,15 @@ var c=document.getElementById("canvas");
 var ctx=c.getContext("2d");
 ctx.font = "32px Georgia";
 
+var loaded = false;
+window.onload = function () {
+	loaded = true;
+};
+var couchImage = new Image();
+couchImage.src = "CouchBad.png";
+var chairImage = new Image();
+chairImage.src = "ChairBad.png";
+
 var movingObject = null;
 
 c.addEventListener("mousedown", mouseDown, false);
@@ -104,21 +113,23 @@ function keyPress(event) {
 	}
 }
 
-var couch = new furniture("couch", grid.length * cellSize + 10, 10, 2, 1, "#0000ff", "#ccccff");
-var table = new furniture("table", grid.length * cellSize + 10, 10 * 2 + cellSize, 3, 1, "#0000ff", "#ccccff");
+var couch = new furniture("couch", grid.length * cellSize + 10, 10, 2, 1, "#0000ff", "#ccccff", couchImage);
+var table = new furniture("table", grid.length * cellSize + 10, 10 * 2 + cellSize, 3, 1, "#0000ff", "#ccccff", chairImage);
 
 setInterval(draw, 30);
 
 function draw() {
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	for (var i = 0; i < gridLength; ++i) {
-		for (var j = 0; j < gridHeight; ++j) {
-			grid[i][j].draw();
+	if (loaded) {
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		for (var i = 0; i < gridLength; ++i) {
+			for (var j = 0; j < gridHeight; ++j) {
+				grid[i][j].draw();
+			}
 		}
-	}
-	couch.draw();
-	table.draw();
-	if (movingObject != null) {
-		movingObject.draw();
+		couch.draw();
+		table.draw();
+		if (movingObject != null) {
+			movingObject.draw();
+		}
 	}
 }
