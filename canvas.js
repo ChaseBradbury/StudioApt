@@ -28,6 +28,7 @@ for (var i = 0; i < allFurniture.length; i++){
 var playerPoints = 0;
 
 var movingObject = null;
+var movingGrid = 0;
 
 c.addEventListener("mousedown", mouseDown, false);
 
@@ -53,6 +54,7 @@ function mouseDown(event) {
 	if (grid[x] == null || grid[x][y] == null) return;
 
 	grid[x][y].usable = !grid[x][y].usable;
+	movingGrid = grid[x][y].usable + 1;
 }
 
 c.addEventListener("mouseup", mouseUp, false);
@@ -87,6 +89,8 @@ function mouseUp(event) {
 			movingObject = null;
 		}
 	}
+
+	movingGrid = 0;
 }
 
 c.addEventListener("mousemove", moveMouse, false);
@@ -109,6 +113,15 @@ function moveMouse(event) {
 			movingObject.x = x - movingObject.sizeX/2;
 			movingObject.y = y - movingObject.sizeY/2;
 		}
+	}
+
+	if (movingGrid) {
+		x = Math.floor(x/cellSize);
+		y = Math.floor(y/cellSize);
+
+		if (grid[x] == null || grid[x][y] == null) return;
+
+		grid[x][y].usable = movingGrid - 1;
 	}
 }
 
