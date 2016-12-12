@@ -1,6 +1,7 @@
 var dangerColor = "#ff0000";
 
-function furniture(x, y, length, height, color, highlightColor) {
+function furniture(name, x, y, length, height, color, highlightColor) {
+	this.name = name;
 	this.x = x;
 	this.y = y;
 	this.initX = x;
@@ -25,9 +26,10 @@ function furniture(x, y, length, height, color, highlightColor) {
 	this.isClicked = function(x, y) {
 		if (x > this.x && x < this.x + this.sizeX && y > this.y && y < this.y + this.sizeY) {
 			this.clicked = !this.clicked;
-			//when picking up a piece of furniture, immediately make hasFurn false
-			if (this.currentGridSpace != null){
-				this.currentGridSpace.isFurnitureOnCell(false);
+			var gx = Math.floor(this.x/cellSize);
+			var gy = Math.floor(this.y/cellSize);
+			if (grid[gx] != null && grid[gx][gy] != null){
+				grid[gx][gy].putFurnitureOnCell(false,null);
 			}
 			return true;
 		}
@@ -47,8 +49,7 @@ function furniture(x, y, length, height, color, highlightColor) {
 		var gy = Math.floor(this.y/cellSize);
 		for (var i = gx; i < this.length + gx; ++i) {
 			for (var j = gy; j < this.height + gy; ++j) {
-				if (grid[i] == null || grid[i][j] == null || !grid[i][j].usable || (grid[i][j].hasFurniture && this.currentGridSpace != grid[i][j])) {
-					//if (grid[i][j].hasFurniture) 
+				if (grid[i] == null || grid[i][j] == null || !grid[i][j].usable || (grid[i][j].hasFurniture && grid[gx][gy] != grid[i][j])) {
 					return false; 
 				}
 			}
@@ -71,12 +72,19 @@ function furniture(x, y, length, height, color, highlightColor) {
 		ctx.fillRect(this.x, this.y, this.sizeX, this.sizeY);
 	}
 
-	// this.assignCurrentGridSpace = function(gridSpace) {
-	// 	this.currentGridSpace = gridSpace;
-	// }
-
-	this.checkAdjacency = function() {
-		
+	this.checkNeighbors = function(x, y) {
+		if (grid[x-1][y].hasFurniture){
+			console.log("LEFT is " + grid[x-1][y].currFurniture.name);
+		}
+		if (grid[x+1][y].hasFurniture){
+			console.log("RIGHT is " + grid[x+1][y].currFurniture.name);
+		}
+		if (grid[x][y+1].hasFurniture){
+			console.log("BOTTOM is " + grid[x][y+1].currFurniture.name);
+		}
+		if (grid[x][y-1].hasFurniture){
+			console.log("TOP is " + grid[x][y-1].currFurniture.name);
+		}
 	}
 
 	this.checkBonusList = function() {
@@ -86,18 +94,18 @@ function furniture(x, y, length, height, color, highlightColor) {
 	}
 
 	this.getFrontNeighbor = function () {
-
+		return false;
 	}
 
 	this.getBackNeighbor = function () {
-		
+		return false;
 	}
 
 	this.getLeftNeighbor = function () {
-		
+		return false;
 	}
 
 	this.getRightNeighbor = function () {
-		
+		return false;
 	}
 }

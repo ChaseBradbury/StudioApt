@@ -17,6 +17,7 @@ function cell(x, y, usable) {
 	this.size = cellSize;
 	this.usable = usable;
 	this.hasFurniture = false;
+	this.currFurniture;
 
 	this.draw = function() {
 		ctx.strokeStyle="#000000";
@@ -27,7 +28,8 @@ function cell(x, y, usable) {
 		ctx.fillRect(this.x, this.y, this.size, this.size);
 	}
 
-	this.isFurnitureOnCell = function (hasFurniture) {
+	this.putFurnitureOnCell = function (hasFurniture, furniture) {
 		this.hasFurniture = hasFurniture;
+		this.currFurniture = furniture;
 	}
 }
