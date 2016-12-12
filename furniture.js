@@ -40,6 +40,11 @@ function furniture(x, y, length, height, color, highlightColor) {
 		return true;
 	}
 
+	this.reset = function() {
+		this.x = this.initX;
+		this.y = this.initY;
+	}
+
 	this.draw = function() {
 		ctx.strokeStyle="#000000";
 		ctx.strokeRect(this.x, this.y, this.sizeX, this.sizeY);

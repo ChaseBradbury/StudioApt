@@ -42,16 +42,18 @@ function mouseUp(event) {
 		x = Math.floor(x/cellSize);
 		y = Math.floor(y/cellSize);
 		if (grid[x] == null || grid[x][y] == null) {
+			movingObject.reset();
 			movingObject.clicked = false;
 			movingObject = null;
 			return;
 		}
 		movingObject.x = grid[x][y].x;
 		movingObject.y = grid[x][y].y;
-		if (movingObject.isSafe()) {
-			movingObject.clicked = false;
-			movingObject = null;
+		if (!movingObject.isSafe()) {
+			movingObject.reset(); 
 		}
+		movingObject.clicked = false;
+		movingObject = null;
 	}
 }
 
