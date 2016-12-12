@@ -21,6 +21,8 @@ function furniture(name, x, y, length, height, color, highlightColor, image, bon
 	this.back;
 	this.side; 
 	this.bonusList = bonusList; // a list of bonusListItems, each of which says what side it can be on
+	this.readableBonusList = "";
+	//this.readableBonusList = this.makeBonusListReadable();
 	this.image = image;
 	this.rotation = 0;
 	this.pointsEarning = 0;
@@ -34,9 +36,13 @@ function furniture(name, x, y, length, height, color, highlightColor, image, bon
 				for (var j = gy; j < this.height + gy; ++j) {
 					if (grid[i] != null && grid[i][j] != null){
 						grid[i][j].putFurnitureOnCell(false,null);
+						playerPoints -= this.pointsEarning;
 						this.pointsEarning = 0;
 					}
 				}
+			}
+			if (this.readableBonusList == ""){
+				this.readableBonusList = this.readableBonusList.concat(this.makeBonusListReadable());
 			}
 			return true;
 		}
@@ -77,11 +83,15 @@ function furniture(name, x, y, length, height, color, highlightColor, image, bon
 				}
 			}
 		}
+		// update player points after placing furniture
+		playerPoints += this.pointsEarning;
+		console.log("playerPoints = " + playerPoints);
 	}
 
 	this.reset = function() {
 		this.x = this.initX;
 		this.y = this.initY;
+		playerPoints -= this.pointsEarning;
 		this.pointsEarning = 0;
 	}
 
@@ -99,6 +109,8 @@ function furniture(name, x, y, length, height, color, highlightColor, image, bon
 		ctx.translate(-this.x, -this.y);
 		if (this.clicked) {
 			ctx.globalAlpha = 0.25;
+			//while holding object, draw bonus list
+			this.drawBonusList();
 		}
 		var xMod = 0;
 		var yMod = 0;
@@ -120,65 +132,24 @@ function furniture(name, x, y, length, height, color, highlightColor, image, bon
 
 	this.checkNeighbors = function(x, y) {
 		//check left
-		if (grid[x-1][y].hasFurniture && grid[x-1][y].currFurniture.name != this.name){
-			console.log("LEFT is " + grid[x-1][y].currFurniture.name);
-			if (this.rotation == 0){
-				this.checkBonusList(grid[x-1][y].currFurniture, back);
-			}
-			else if (this.rotation == 1){
-				this.checkBonusList(grid[x-1][y].currFurniture, side);
-			}
-			else if (this.rotation == 2){
-				this.checkBonusList(grid[x-1][y].currFurniture, front);
-			}
-			else if (this.rotation == 3){
-				this.checkBonusList(grid[x-1][y].currFurniture, side);
-			}
-			else {
-				console.log("BIG ROTATION ERROR");
-			}
-		}
+		var leftNeighbor = this.getLeftNeighbor(x,y);
+		// if (leftNeighbor != null) {
+		// 	console.log(leftNeighbor);
+		// 	leftNeighbor.getRightNeighbor(leftNeighbor.x,leftNeighbor.y);
+		// }
 		//check right
-		if (grid[x+1][y].hasFurniture && grid[x+1][y].currFurniture.name != this.name){
-			console.log("RIGHT is " + grid[x+1][y].currFurniture.name);
-			if (this.rotation == 0){
-				this.checkBonusList(grid[x+1][y].currFurniture, front);
-			}
-			else if (this.rotation == 1){
-				this.checkBonusList(grid[x+1][y].currFurniture, side);
-			}
-			else if (this.rotation == 2){
-				this.checkBonusList(grid[x+1][y].currFurniture, back);
-			}
-			else if (this.rotation == 3){
-				this.checkBonusList(grid[x+1][y].currFurniture, side);
-			}
-			else {
-				console.log("BIG ROTATION ERROR");
-			}
-		}
+		var rightNeighbor = this.getRightNeighbor(x,y);
+		//if (rightNeighbor != null) rightNeighbor.getLeftNeighbor(x-1,y);
 		//check bottom
-		if (grid[x][y+1].hasFurniture && grid[x][y+1].currFurniture.name != this.name){
-			console.log("BOTTOM is " + grid[x][y+1].currFurniture.name);
-			if (this.rotation == 0){
-				this.checkBonusList(grid[x][y+1].currFurniture, side);
-			}
-			else if (this.rotation == 1){
-				this.checkBonusList(grid[x][y+1].currFurniture, front);
-			}
-			else if (this.rotation == 2){
-				this.checkBonusList(grid[x][y+1].currFurniture, side);
-			}
-			else if (this.rotation == 3){
-				this.checkBonusList(grid[x][y+1].currFurniture, back);
-			}
-			else {
-				console.log("BIG ROTATION ERROR");
-			}
-		}
+		var bottomNeighbor = this.getBottomNeighbor(x,y);
+		//if (bottomNeighbor != null) bottomNeighbor.getTopNeighbor(x,y+1);
 		//check top
+		var topNeighbor = this.getTopNeighbor(x,y);
+		//if (topNeighbor != null) topNeighbor.getBottomNeighbor(x,y-1);
+	}
+
+	this.getTopNeighbor = function (x,y) {
 		if (grid[x][y-1].hasFurniture && grid[x][y-1].currFurniture.name != this.name){
-			console.log("TOP is " + grid[x][y-1].currFurniture.name);
 			if (this.rotation == 0){
 				this.checkBonusList(grid[x][y-1].currFurniture, side);
 			}
@@ -194,6 +165,70 @@ function furniture(name, x, y, length, height, color, highlightColor, image, bon
 			else {
 				console.log("BIG ROTATION ERROR");
 			}
+			return grid[x][y-1].currFurniture;
+		}
+	}
+
+	this.getBottomNeighbor = function (x,y) {
+		if (grid[x][y+1].hasFurniture && grid[x][y+1].currFurniture.name != this.name){
+			if (this.rotation == 0){
+				this.checkBonusList(grid[x][y+1].currFurniture, side);
+			}
+			else if (this.rotation == 1){
+				this.checkBonusList(grid[x][y+1].currFurniture, front);
+			}
+			else if (this.rotation == 2){
+				this.checkBonusList(grid[x][y+1].currFurniture, side);
+			}
+			else if (this.rotation == 3){
+				this.checkBonusList(grid[x][y+1].currFurniture, back);
+			}
+			else {
+				console.log("BIG ROTATION ERROR");
+			}
+			return grid[x][y+1].currFurniture;
+		}
+	}
+
+	this.getLeftNeighbor = function (x,y) {
+		if (grid[x-1][y].hasFurniture && grid[x-1][y].currFurniture.name != this.name){
+			if (this.rotation == 0){
+				this.checkBonusList(grid[x-1][y].currFurniture, back);
+			}
+			else if (this.rotation == 1){
+				this.checkBonusList(grid[x-1][y].currFurniture, side);
+			}
+			else if (this.rotation == 2){
+				this.checkBonusList(grid[x-1][y].currFurniture, front);
+			}
+			else if (this.rotation == 3){
+				this.checkBonusList(grid[x-1][y].currFurniture, side);
+			}
+			else {
+				console.log("BIG ROTATION ERROR");
+			}
+			return grid[x-1][y].currFurniture;
+		}
+	}
+
+	this.getRightNeighbor = function (x,y) {
+		if (grid[x+1][y].hasFurniture && grid[x+1][y].currFurniture.name != this.name){
+			if (this.rotation == 0){
+				this.checkBonusList(grid[x+1][y].currFurniture, front);
+			}
+			else if (this.rotation == 1){
+				this.checkBonusList(grid[x+1][y].currFurniture, side);
+			}
+			else if (this.rotation == 2){
+				this.checkBonusList(grid[x+1][y].currFurniture, back);
+			}
+			else if (this.rotation == 3){
+				this.checkBonusList(grid[x+1][y].currFurniture, side);
+			}
+			else {
+				console.log("BIG ROTATION ERROR");
+			}
+			return grid[x+1][y].currFurniture;
 		}
 	}
 
@@ -201,29 +236,38 @@ function furniture(name, x, y, length, height, color, highlightColor, image, bon
 		for (var i = 0; i < this.bonusList.length; i++){
 			// if bonusSide is "all", applying bonusPoints no matter what
 			if (furniture.name == this.bonusList[i].name && this.bonusList[i].bonusSide == all){
-				console.log(this.bonusList[i]);
 				this.pointsEarning += this.bonusList[i].points;
 			} 
 			else if (furniture.name == this.bonusList[i].name && bonusSide == this.bonusList[i].bonusSide){
 				this.pointsEarning += this.bonusList[i].points;
 			}
 		}
-		console.log("pointsEarning after: " + this.pointsEarning);
+		console.log("pointsEarning from "+ furniture.name+ ": " + this.pointsEarning);
 	}
 
-	this.getFrontNeighbor = function () {
-		return false;
+	this.makeBonusListReadable = function() {
+		var readableList = "";
+		for (var i = 0; i < this.bonusList.length; i++){
+			if(this.bonusList[i] != null){
+				var textForAll = "any side";
+				if (this.bonusList[i].name == ""){
+					readableList = readableList.concat(" no bonuses");
+				}
+				else if (this.bonusList[i].bonusSide == all){
+					readableList = readableList.concat(this.bonusList[i].name + " by " + textForAll + "(" + this.bonusList[i].points + ") , ");
+
+				} else {
+					readableList = readableList.concat(this.bonusList[i].name + " by " + this.bonusList[i].bonusSide + "(" + this.bonusList[i].points + ") , ");
+				}
+			}
+		}
+		return readableList;
 	}
 
-	this.getBackNeighbor = function () {
-		return false;
-	}
-
-	this.getLeftNeighbor = function () {
-		return false;
-	}
-
-	this.getRightNeighbor = function () {
-		return false;
+	this.drawBonusList = function(){
+		var listToDisplay = "hello";
+		ctx.font = "18px Arial";
+    	ctx.fillStyle = "000000";
+    	ctx.fillText("Bonus Furniture: "+ this.readableBonusList, 8, 725)
 	}
 }

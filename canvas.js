@@ -142,6 +142,12 @@ function keyPress(event) {
 	}
 }
 
+function drawScore() {
+	ctx.font = "36px Georgia";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText("Score: "+ playerPoints, 8, 675)
+}
+
 setInterval(draw, 30);
 
 function draw() {
@@ -159,5 +165,6 @@ function draw() {
 		if (movingObject != null) {
 			movingObject.draw();
 		}
+		drawScore();
 	}
 }
