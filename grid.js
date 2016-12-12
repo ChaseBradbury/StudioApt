@@ -55,3 +55,12 @@ function printGrid() {
 	console.log("serialized: " + gridSerialize);
 	gridSerialize = "";
 }
+
+function SetGrid(level) {
+	for (var i = 0; i < gridLength; ++i) {
+		grid[i] = [];
+		for (var j = 0; j < gridHeight; ++j) {
+			grid[i][j] = new cell(i, j, level[i][j]);
+		}
+	}
+}

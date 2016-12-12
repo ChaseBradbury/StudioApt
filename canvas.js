@@ -139,6 +139,9 @@ function keyPress(event) {
 		case 103:
 			printGrid();
 			break;
+		case 49:
+			SetGrid(level2);
+			break;
 	}
 }
 
