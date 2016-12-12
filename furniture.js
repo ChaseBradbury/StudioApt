@@ -28,8 +28,12 @@ function furniture(name, x, y, length, height, color, highlightColor) {
 			this.clicked = !this.clicked;
 			var gx = Math.floor(this.x/cellSize);
 			var gy = Math.floor(this.y/cellSize);
-			if (grid[gx] != null && grid[gx][gy] != null){
-				grid[gx][gy].putFurnitureOnCell(false,null);
+			for (var i = gx; i < this.length + gx; ++i) {
+				for (var j = gy; j < this.height + gy; ++j) {
+					if (grid[i] != null && grid[i][j] != null){
+						grid[i][j].putFurnitureOnCell(false,null);
+					}
+				}
 			}
 			return true;
 		}
@@ -49,12 +53,24 @@ function furniture(name, x, y, length, height, color, highlightColor) {
 		var gy = Math.floor(this.y/cellSize);
 		for (var i = gx; i < this.length + gx; ++i) {
 			for (var j = gy; j < this.height + gy; ++j) {
-				if (grid[i] == null || grid[i][j] == null || !grid[i][j].usable || (grid[i][j].hasFurniture && grid[gx][gy] != grid[i][j])) {
+				if (grid[i] == null || grid[i][j] == null || !grid[i][j].usable || (grid[i][j].hasFurniture && grid[i][j].currFurniture != this)) {
 					return false; 
 				}
 			}
 		}
 		return true;
+	}
+
+	this.place = function(x, y) {
+		var gx = Math.floor(this.x/cellSize);
+		var gy = Math.floor(this.y/cellSize);
+		for (var i = gx; i < this.length + gx; ++i) {
+			for (var j = gy; j < this.height + gy; ++j) {
+				if (grid[i] != null && grid[i][j] != null){
+					grid[i][j].putFurnitureOnCell(true, movingObject);
+				}
+			}
+		}
 	}
 
 	this.reset = function() {

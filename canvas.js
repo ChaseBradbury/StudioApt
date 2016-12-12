@@ -55,7 +55,7 @@ function mouseUp(event) {
 		movingObject.x = grid[x][y].x;
 		movingObject.y = grid[x][y].y;
 		if (movingObject.isSafe()) {
-			grid[x][y].putFurnitureOnCell(true, movingObject);
+			movingObject.place(x, y);
 			movingObject.checkNeighbors(x, y);
 			movingObject.clicked = false;
 			movingObject = null;
