@@ -11,7 +11,7 @@ couchImage.src = "CouchBad.png";
 var tableImage = new Image();
 tableImage.src = "diningtable.png";
 var chairImage = new Image();
-chairImage.src = "ChairBad.png";
+chairImage.src = "diningchair.png";
 
 // furniture globals
 var allFurniture = [];
